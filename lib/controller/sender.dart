@@ -20,9 +20,8 @@ class SenderController<T> implements ISenderController<T> {
 
   @override
   Future<bool> onClickSendButton() async {
-    if (selectedReceiversURL == null) {
+    if (selectedReceiversURL == null)
       return false;
-    }
 
     return _okCode == await _model.sendFiles(_addedFiles, selectedReceiversURL);
   }
@@ -41,9 +40,7 @@ class SenderController<T> implements ISenderController<T> {
   }
 
   @override
-  onDeleteFile(int index) {
-    _addedFiles.removeAt(index);
-  }
+  onDeleteFile(int index) => _addedFiles.removeAt(index);
 
   @override
   List<T> getFiles() {

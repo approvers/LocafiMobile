@@ -1,25 +1,27 @@
 import 'dart:core';
 
 class HomeController implements IHomeController {
-  String sendPage;
-  String receivePage;
+  String sendPageRoute;
+  String receivePageRoute;
+
+  HomeController(String sendPageRoute, String receivePageRoute) {
+    this.sendPageRoute = sendPageRoute;
+    this.receivePageRoute = receivePageRoute;
+  }
 
   @override
   String GetReceivePage() {
-    throw ;
+    return this.receivePageRoute;
   }
 
   @override
   String GetSendPage() {
-    // TODO: implement GetSendPage
-    throw UnimplementedError();
+    return this.sendPageRoute;
   }
 
 }
 
 abstract class IHomeController {
-  IHomeController(String sendPage, String receivePage);
-
   String GetSendPage();
 
   String GetReceivePage();

@@ -29,13 +29,13 @@ class HomePage extends StatelessWidget {
                   child: Text("Send"),
                   onPressed: () =>
                       // Navigator.of(context).pushNamed(controller.GetSendPage()),
-                      log(controller.GetSendPage()),
+                      log(controller.getSendPage()),
                 ),
                 RaisedButton(
                   child: Text("Receive"),
                   onPressed: () =>
                       // Navigator.of(context).pushNamed(controller.GetReceivePage()),
-                      log(controller.GetReceivePage()),
+                      log(controller.getReceivePage()),
                 )
               ],
             )

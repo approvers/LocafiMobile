@@ -10,19 +10,19 @@ class HomeController implements IHomeController {
   }
 
   @override
-  String GetReceivePage() {
+  String getReceivePage() {
     return this.receivePageRoute;
   }
 
   @override
-  String GetSendPage() {
+  String getSendPage() {
     return this.sendPageRoute;
   }
 
 }
 
 abstract class IHomeController {
-  String GetSendPage();
+  String getSendPage();
 
-  String GetReceivePage();
+  String getReceivePage();
 }

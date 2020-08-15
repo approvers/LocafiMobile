@@ -28,7 +28,14 @@ main() async {
  test(
    "Test for invalid url",
      () async {
-        expect(await controller.onSelectReceiver("invalid"), NullThrownError);
+        expect(await () async {
+          try {
+            await controller.onSelectReceiver("invalid");
+            return false;
+          }catch (e) {
+            return e is NullThrownError;
+          }
+        }(), true);
      }
  );
 }

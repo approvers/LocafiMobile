@@ -31,6 +31,8 @@ class SenderController implements ISenderController {
 
   @override
   onSelectReceiver(String receiver) {
+    if (!_receivers.keys.any((element) => element == receiver))
+      throw NullThrownError();
     selectedReceiversURL = _receivers[receiver];
   }
 

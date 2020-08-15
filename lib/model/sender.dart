@@ -1,7 +1,7 @@
 import 'dart:io';
 
 abstract class ISenderModel {
-  Future<String> getServers();
+  Future<Map<String, String>> getServers();
 
-  Future<String> sendFiles(List<File> file);
+  Future<String> sendFiles(List<File> file, String url);
 }

@@ -1,7 +1,7 @@
 # LocafiMobile
 [![buildBudge](https://img.shields.io/github/workflow/status/approvers/locafimobile/Build?logo=github&style=for-the-badge)](https://github.com/approvers/LocafiMobile/actions?query=workflow%3ABuild)
-[![lintBudge](https://img.shields.io/github/workflow/status/approvers/LocafiMobile/Lint?logo=github&style=for-the-badge)](https://github.com/approvers/LocafiMobile/actions?query=workflow%3ALint)
-[![testBudge](https://img.shields.io/github/workflow/status/approvers/LocafiMobile/Test?logo=github&style=for-the-badge)](https://github.com/approvers/LocafiMobile/actions?query=workflow%3ATest)  
+[![lintBudge](https://img.shields.io/github/workflow/status/approvers/locafimobile/Lint?label=lint&logo=github&style=for-the-badge)](https://github.com/approvers/LocafiMobile/actions?query=workflow%3ALint)
+[![testBudge](https://img.shields.io/github/workflow/status/approvers/locafimobile/Test?label=test&logo=github&style=for-the-badge)](https://github.com/approvers/LocafiMobile/actions?query=workflow%3ATest)  
 File sharing application in local network.
 
 

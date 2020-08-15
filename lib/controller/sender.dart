@@ -1,12 +1,10 @@
-import 'dart:io';
-
 import 'package:flutter_app/model/sender.dart';
 
-class SenderController implements ISenderController {
-  ISenderModel _model;
+class SenderController<T> implements ISenderController<T> {
+  ISenderModel<T> _model;
 
-  List<File> _addedFiles;
-  Map<String, String> _receivers;
+  List<T> _addedFiles = [];
+  Map<String, String> _receivers = {};
 
   String selectedReceiversURL;
   static const _okCode = "200";
@@ -16,7 +14,7 @@ class SenderController implements ISenderController {
   }
 
   @override
-  onAddNewFile(File file) {
+  onAddNewFile(T file) {
     _addedFiles.add(file);
   }
 
@@ -46,10 +44,17 @@ class SenderController implements ISenderController {
   onDeleteFile(int index) {
     _addedFiles.removeAt(index);
   }
+
+  @override
+  List<T> getFiles() {
+    return _addedFiles;
+  }
 }
 
 abstract class ISenderController<T> {
   Future<List<String>> getReceiverNames();
+
+  List<T> getFiles();
 
   onSelectReceiver(String receiver);
 

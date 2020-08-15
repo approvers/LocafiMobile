@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:flutter_app/controller/sender.dart';
 import 'package:flutter_app/model/sender.dart';
 import 'package:flutter_test/flutter_test.dart';

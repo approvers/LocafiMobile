@@ -1,6 +1,9 @@
-# flutter_app
+# LocafiMobile
+[![buildBudge](https://img.shields.io/github/workflow/status/approvers/locafimobile/Build?logo=github&style=for-the-badge)](https://github.com/approvers/LocafiMobile/actions?query=workflow%3ABuild)
+[![lintBudge](https://img.shields.io/github/workflow/status/approvers/LocafiMobile/Lint?logo=github&style=for-the-badge)](https://github.com/approvers/LocafiMobile/actions?query=workflow%3ALint)
+[![testBudge](https://img.shields.io/github/workflow/status/approvers/LocafiMobile/Test?logo=github&style=for-the-badge)](https://github.com/approvers/LocafiMobile/actions?query=workflow%3ATest)  
+File sharing application in local network.
 
-A new Flutter application.
 
 ## Getting Started
 

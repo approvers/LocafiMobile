@@ -6,7 +6,7 @@ import 'package:flutter_test/flutter_test.dart';
 
 main() async {
   ISenderModel model = TestingModel();
-  ISenderController controller = SenderController(model);
+  ISenderController controller = SenderController<String>(model);
   final serverList = ["Server1", "Server2"];
   await controller.getReceiverNames();
   test(
@@ -38,9 +38,20 @@ main() async {
         }(), true);
      }
  );
+
+ test(
+   "Test for add/delete file",
+     () {
+        expect(controller.getFiles(), []);
+        controller.onAddNewFile("fuck you");
+        expect(controller.getFiles(), ["fuck you"]);
+        controller.onDeleteFile(0);
+        expect(controller.getFiles(), []);
+     }
+ );
 }
 
-class TestingModel implements ISenderModel {
+class TestingModel implements ISenderModel<String> {
   List<String> urls;
   @override
   Future<Map<String, String>> getServers() async {
@@ -49,7 +60,7 @@ class TestingModel implements ISenderModel {
   }
 
   @override
-  Future<String> sendFiles(List<File> file, String url) async {
+  Future<String> sendFiles(List<String> file, String url) async {
     for (var element in urls) {
       if (element == url)
         return "200";

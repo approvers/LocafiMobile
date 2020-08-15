@@ -13,9 +13,17 @@ class HomePage extends StatelessWidget {
     return new Scaffold(
       body: Center(
         child: Column(
+          mainAxisSize: MainAxisSize.min,
           children: [
-            Text("Locafi Mobile"),
+            Text(
+              "Locafi Mobile",
+              style: TextStyle(
+                fontSize: 50.0,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
             Row(
+              mainAxisSize: MainAxisSize.min,
               children: [
                 RaisedButton(
                   child: Text("Send"),

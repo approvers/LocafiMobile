@@ -6,8 +6,8 @@ main() {
   test(
     "Test code for HomeController",
     () {
-      expect(controller.GetSendPage(), equals("/send"));
-      expect(controller.GetReceivePage(), equals("/receive"));
+      expect(controller.getSendPage(), equals("/send"));
+      expect(controller.getReceivePage(), equals("/receive"));
     }
   );
 }

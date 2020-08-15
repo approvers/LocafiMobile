@@ -48,12 +48,12 @@ class SenderController implements ISenderController {
   }
 }
 
-abstract class ISenderController {
+abstract class ISenderController<T> {
   Future<List<String>> getReceiverNames();
 
   onSelectReceiver(String receiver);
 
-  onAddNewFile(File file);
+  onAddNewFile(T file);
 
   onDeleteFile(int index);
 

@@ -1,4 +1,4 @@
-name: Build
+name: Lint
 
 on:
   push:
@@ -21,5 +21,5 @@ jobs:
           channel: 'stable'
       - name: Install dependencies
         run: flutter pub get
-      - name: Run build
-        run: flutter build apk
+      - name: Run lint
+        run: flutter analyze

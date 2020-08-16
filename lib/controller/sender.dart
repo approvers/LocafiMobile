@@ -30,7 +30,7 @@ class SenderController<T> implements ISenderController<T> {
 
   @override
   onSelectReceiver(String receiver) {
-    if (!_receivers.keys.any((element) => element == receiver))
+    if (!_receivers.containsKey(receiver))
       throw NullThrownError();
     selectedReceiversURL = _receivers[receiver];
   }

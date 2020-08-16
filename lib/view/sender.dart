@@ -80,3 +80,44 @@ class _ReceiverSelectorState extends State<_ReceiverSelector> {
     );
   }
 }
+
+class _SendButton extends StatelessWidget {
+  final ISenderController controller;
+
+  _SendButton({this.controller});
+
+  @override
+  Widget build(BuildContext context) {
+    return new RaisedButton(
+      onPressed: () {
+        controller.onClickSendButton().then((isSuccess) {
+          var statusText = "";
+          if (isSuccess) {
+            statusText = "Succeeded sending files!!!";
+          } else {
+            statusText = "Failed sending files...";
+          }
+          showDialog(
+              context: context,
+              builder: (_) {
+                return sentDialog(context, statusText);
+              });
+        });
+      },
+      child: Text("Send"),
+    );
+  }
+
+  Widget sentDialog(BuildContext context, String statusText) {
+    return AlertDialog(
+      title: Text("Sent files"),
+      content: Text(statusText),
+      actions: [
+        FlatButton(
+          child: Text("OK"),
+          onPressed: () => Navigator.pop(context),
+        )
+      ],
+    );
+  }
+}

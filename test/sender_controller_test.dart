@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter_app/controller/sender.dart';
 import 'package:flutter_app/model/sender.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -58,11 +60,11 @@ class TestingModel implements ISenderModel<String> {
   }
 
   @override
-  Future<String> sendFiles(List<String> file, String url) async {
+  Future<int> sendFiles(List<String> file, String url) async {
     for (var element in urls) {
       if (element == url)
-        return "200";
+        return HttpStatus.ok;
     }
-    return "404";
+    return HttpStatus.notFound;
   }
 }

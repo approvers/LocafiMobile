@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter_app/model/sender.dart';
 
 class SenderController<T> implements ISenderController<T> {
@@ -7,7 +9,7 @@ class SenderController<T> implements ISenderController<T> {
   Map<String, String> _receivers = {};
 
   String selectedReceiversURL;
-  static const _okCode = "200";
+  static const _okCode = HttpStatus.ok;
 
   SenderController(ISenderModel model) {
     this._model = model;

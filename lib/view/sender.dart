@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_app/controller/sender.dart';
 import 'package:flutter_app/types/file.dart';
 
-class SenderPage extends StatefulWidget {
-  final ISenderController controller;
+class SenderPage<T extends OriginalFile> extends StatefulWidget {
+  final ISenderController<T> controller;
 
   const SenderPage({Key key, this.controller}) : super(key: key);
 
@@ -11,8 +11,8 @@ class SenderPage extends StatefulWidget {
   _SenderPageState createState() => _SenderPageState();
 }
 
-class _SenderPageState extends State<SenderPage> {
-  ISenderController controller;
+class _SenderPageState<T extends OriginalFile> extends State<SenderPage> {
+  final ISenderController<T> controller;
 
   _SenderPageState({this.controller});
 
@@ -23,8 +23,19 @@ class _SenderPageState extends State<SenderPage> {
         title: Text("ファイル送信"),
       ),
       body: Center(
-        // TODO: Create detail component.
-        child: Container(),
+        child: Column(
+          children: [
+            _ReceiverSelector(
+              controller: controller,
+            ),
+            _SendButton(
+              controller: controller,
+            ),
+            _SendFileList<T>(
+              controller: controller,
+            )
+          ],
+        ),
       ),
     );
   }

@@ -121,7 +121,8 @@ class _SendButton extends StatelessWidget {
 
 class _SendFileList<T extends OriginalFile> extends StatefulWidget {
   final List<T> fileList;
-  _SendFileList({this.fileList});
+  final ISenderController<T> controller;
+  _SendFileList({this.fileList, this.controller});
 
   @override
   _SendFileListState createState() => _SendFileListState();
@@ -129,7 +130,8 @@ class _SendFileList<T extends OriginalFile> extends StatefulWidget {
 
 class _SendFileListState<T extends OriginalFile> extends State<_SendFileList> {
   final List<T> fileList;
-  _SendFileListState({this.fileList});
+  final ISenderController<T> controller;
+  _SendFileListState({this.fileList, this.controller});
 
   @override
   Widget build(BuildContext context) {
@@ -139,6 +141,8 @@ class _SendFileListState<T extends OriginalFile> extends State<_SendFileList> {
         itemBuilder: (BuildContext context, int index) {
           return _FileCard(
             file: fileList[index],
+            index: index,
+            controller: controller,
           );
         },
       ),
@@ -147,8 +151,10 @@ class _SendFileListState<T extends OriginalFile> extends State<_SendFileList> {
 }
 
 class _FileCard<T extends OriginalFile> extends StatelessWidget {
+  final ISenderController<T> controller;
   final T file;
-  _FileCard({this.file});
+  final int index;
+  _FileCard({this.controller, this.file, this.index});
 
   @override
   Widget build(BuildContext context) {
@@ -168,6 +174,10 @@ class _FileCard<T extends OriginalFile> extends StatelessWidget {
               fontSize: 10,
               color: Colors.grey
             ),
+          ),
+          IconButton(
+            onPressed: () => controller.onDeleteFile(index),
+            icon: Icon(Icons.delete),
           )
         ],
       ),

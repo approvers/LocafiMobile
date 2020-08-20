@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/controller/sender.dart';
+import 'package:flutter_app/types/file.dart';
 
 class SenderPage extends StatefulWidget {
   final ISenderController controller;
@@ -114,6 +115,31 @@ class _SendButton extends StatelessWidget {
           onPressed: () => Navigator.pop(context),
         )
       ],
+    );
+  }
+}
+
+class _SendFileList<T extends OriginalFile> extends StatefulWidget {
+  final List<T> fileList;
+  _SendFileList({this.fileList});
+
+  @override
+  _SendFileListState createState() => _SendFileListState();
+}
+
+class _SendFileListState<T extends OriginalFile> extends State<_SendFileList> {
+  final List<T> fileList;
+  _SendFileListState({this.fileList});
+
+  @override
+  Widget build(BuildContext context) {
+    return Expanded(
+      child: ListView.builder(
+        itemCount: fileList.length,
+        itemBuilder: (BuildContext context, int index) {
+          return; // TODO: Create file card
+        },
+      ),
     );
   }
 }

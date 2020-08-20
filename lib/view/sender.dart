@@ -137,8 +137,39 @@ class _SendFileListState<T extends OriginalFile> extends State<_SendFileList> {
       child: ListView.builder(
         itemCount: fileList.length,
         itemBuilder: (BuildContext context, int index) {
-          return; // TODO: Create file card
+          return _FileCard(
+            file: fileList[index],
+          );
         },
+      ),
+    );
+  }
+}
+
+class _FileCard<T extends OriginalFile> extends StatelessWidget {
+  final T file;
+  _FileCard({this.file});
+
+  @override
+  Widget build(BuildContext context) {
+    return Card(
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Text(
+            file.getFileName(),
+            style: TextStyle(
+              fontSize: 20
+            ),
+          ),
+          Text(
+            file.getFileSize().toString(),
+            style: TextStyle(
+              fontSize: 10,
+              color: Colors.grey
+            ),
+          )
+        ],
       ),
     );
   }

@@ -92,11 +92,7 @@ class _SendButton extends StatelessWidget {
       onPressed: () {
         controller.onClickSendButton().then((isSuccess) {
           var statusText = "";
-          if (isSuccess) {
-            statusText = "Succeeded sending files!!!";
-          } else {
-            statusText = "Failed sending files...";
-          }
+          statusText = isSuccess ? "Succeeded sending files!!!" : "Failed sending files...";
           showDialog(
               context: context,
               builder: (_) {

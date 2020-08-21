@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/controller/home.dart';
 import 'package:flutter_app/view/home.dart';
+import 'package:flutter_app/view/sender.dart';
 
 void main() {
   runApp(MyApp());
@@ -28,7 +29,15 @@ class MyApp extends StatelessWidget {
         // closer together (more dense) than on mobile platforms.
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home: HomePage(controller: HomeController("/send", "/receive"),),
+      initialRoute: "/",
+      routes: <String, WidgetBuilder> {
+        "/": (BuildContext context) => HomePage(controller: HomeController("/send", "/receive"),),
+        "/send": (BuildContext context) => SenderPage<SenderTestFile>(
+            controller: ViewTestController(
+              SenderViewTestModel<SenderTestFile>(),
+            )
+        )
+      }
     );
   }
 }

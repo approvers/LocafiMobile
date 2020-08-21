@@ -28,8 +28,7 @@ class HomePage extends StatelessWidget {
                 RaisedButton(
                   child: Text("Send"),
                   onPressed: () =>
-                      // Navigator.of(context).pushNamed(controller.GetSendPage()),
-                      log(controller.getSendPage()),
+                      Navigator.of(context).pushNamed(controller.getSendPage()),
                 ),
                 RaisedButton(
                   child: Text("Receive"),

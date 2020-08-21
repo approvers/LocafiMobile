@@ -1,3 +1,4 @@
+import 'dart:developer';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
@@ -8,10 +9,10 @@ import 'package:flutter_app/types/file.dart';
 class SenderPage<T extends AbstractFile> extends StatefulWidget {
   final ISenderController<T> controller;
 
-  const SenderPage({Key key, this.controller}) : super(key: key);
+  SenderPage({this.controller});
 
   @override
-  _SenderPageState createState() => _SenderPageState();
+  _SenderPageState createState() => _SenderPageState<T>(controller: controller);
 }
 
 class _SenderPageState<T extends AbstractFile> extends State<SenderPage> {
@@ -35,6 +36,7 @@ class _SenderPageState<T extends AbstractFile> extends State<SenderPage> {
               controller: controller,
             ),
             _SendFileList<T>(
+              fileList: controller.getFiles(),
               controller: controller,
             )
           ],
@@ -50,7 +52,7 @@ class _ReceiverSelector extends StatefulWidget {
   _ReceiverSelector({this.controller});
 
   @override
-  _ReceiverSelectorState createState() => _ReceiverSelectorState();
+  _ReceiverSelectorState createState() => _ReceiverSelectorState(controller: controller);
 }
 
 class _ReceiverSelectorState extends State<_ReceiverSelector> {
@@ -91,7 +93,7 @@ class _ReceiverSelectorState extends State<_ReceiverSelector> {
           value: value,
           child: Text(value),
         );
-      }),
+      }).toList(),
     );
   }
 }
@@ -139,7 +141,10 @@ class _SendFileList<T extends AbstractFile> extends StatefulWidget {
   _SendFileList({this.fileList, this.controller});
 
   @override
-  _SendFileListState createState() => _SendFileListState();
+  _SendFileListState createState() => _SendFileListState<T>(
+    fileList: fileList,
+    controller: controller,
+  );
 }
 
 class _SendFileListState<T extends AbstractFile> extends State<_SendFileList> {
@@ -149,6 +154,7 @@ class _SendFileListState<T extends AbstractFile> extends State<_SendFileList> {
 
   @override
   Widget build(BuildContext context) {
+    log(fileList.toString());
     return Expanded(
       child: ListView.builder(
         itemCount: fileList.length,
@@ -202,13 +208,16 @@ class _FileCard<T extends AbstractFile> extends StatelessWidget {
 class ViewTestController extends ISenderController<SenderTestFile> {
   ISenderModel<SenderTestFile> _model;
 
-  List<SenderTestFile> _addedFiles = [];
+  List<SenderTestFile> _addedFiles = [
+    SenderTestFile(fileName: "file1", fileSize: 1024),
+    SenderTestFile(fileName: "file2", fileSize: 2048),
+  ];
   Map<String, String> _receivers = {};
 
   String selectedReceiversURL;
   static const _okCode = HttpStatus.ok;
 
-  ViewTestController(ISenderModel model) {
+  ViewTestController(ISenderModel<SenderTestFile> model) {
     this._model = model;
   }
 

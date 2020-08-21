@@ -1,4 +1,3 @@
-import 'dart:developer';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
@@ -105,15 +104,13 @@ class _SendButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return new RaisedButton(
-      onPressed: () {
+      onPressed:() {
         controller.onClickSendButton().then((isSuccess) {
-          var statusText = "";
-          statusText = isSuccess ? "Succeeded sending files!!!" : "Failed sending files...";
+          final statusText = isSuccess ? "Succeeded sending files!!!" : "Failed sending files...";
           showDialog(
               context: context,
-              builder: (_) {
-                return sentDialog(context, statusText);
-              });
+              builder: (_) => sentDialog(context, statusText)
+          );
         });
       },
       child: Text("Send"),
@@ -146,20 +143,19 @@ class _SendFileList<T extends AbstractFile> extends StatefulWidget {
 
 class _SendFileListState<T extends AbstractFile> extends State<_SendFileList> {
   final ISenderController<T> controller;
-  List<T> fileList;
+  List<T> _fileList;
   _SendFileListState({this.controller}) {
-     fileList = controller.getFiles();
+     _fileList = controller.getFiles();
   }
 
   @override
   Widget build(BuildContext context) {
-    fileList = controller.getFiles();
-    fileList.forEach((element) {log(element.getFileName());});
+    _fileList = controller.getFiles();
     return Expanded(
       child: ListView.builder(
-        itemCount: fileList.length,
+        itemCount: _fileList.length,
         itemBuilder: (BuildContext context, int index) {
-          final file = fileList[index];
+          final file = _fileList[index];
           return Card(
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -239,8 +235,6 @@ class ViewTestController extends ISenderController<SenderTestFile> {
   @override
   onDeleteFile(int index)  {
     _addedFiles.removeAt(index);
-    _addedFiles.forEach((element) {
-    });
   }
 
   @override

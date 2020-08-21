@@ -31,8 +31,8 @@ class MyApp extends StatelessWidget {
       ),
       initialRoute: "/",
       routes: <String, WidgetBuilder> {
-        "/": (BuildContext context) => HomePage(controller: HomeController("/send", "/receive"),),
-        "/send": (BuildContext context) => SenderPage<SenderTestFile>(
+        "/": (_) => HomePage(controller: HomeController("/send", "/receive"),),
+        "/send": (_) => SenderPage<SenderTestFile>(
             controller: ViewTestController(
               SenderViewTestModel<SenderTestFile>(),
             )

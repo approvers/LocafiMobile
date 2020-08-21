@@ -36,7 +36,6 @@ class _SenderPageState<T extends AbstractFile> extends State<SenderPage> {
               controller: controller,
             ),
             _SendFileList<T>(
-              fileList: controller.getFiles(),
               controller: controller,
             )
           ],
@@ -136,70 +135,59 @@ class _SendButton extends StatelessWidget {
 }
 
 class _SendFileList<T extends AbstractFile> extends StatefulWidget {
-  final List<T> fileList;
   final ISenderController<T> controller;
-  _SendFileList({this.fileList, this.controller});
+  _SendFileList({this.controller});
 
   @override
   _SendFileListState createState() => _SendFileListState<T>(
-    fileList: fileList,
     controller: controller,
   );
 }
 
 class _SendFileListState<T extends AbstractFile> extends State<_SendFileList> {
-  final List<T> fileList;
   final ISenderController<T> controller;
-  _SendFileListState({this.fileList, this.controller});
+  List<T> fileList;
+  _SendFileListState({this.controller}) {
+     fileList = controller.getFiles();
+  }
 
   @override
   Widget build(BuildContext context) {
-    log(fileList.toString());
+    fileList = controller.getFiles();
+    fileList.forEach((element) {log(element.getFileName());});
     return Expanded(
       child: ListView.builder(
         itemCount: fileList.length,
         itemBuilder: (BuildContext context, int index) {
-          return _FileCard(
-            file: fileList[index],
-            index: index,
-            controller: controller,
+          final file = fileList[index];
+          return Card(
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  file.getFileName(),
+                  style: TextStyle(
+                      fontSize: 20
+                  ),
+                ),
+                Text(
+                  file.getFileSize().toString(),
+                  style: TextStyle(
+                      fontSize: 10,
+                      color: Colors.grey
+                  ),
+                ),
+                IconButton(
+                  onPressed: () =>
+                      setState(() {
+                        controller.onDeleteFile(index);
+                      }),
+                  icon: Icon(Icons.delete),
+                )
+              ],
+            ),
           );
         },
-      ),
-    );
-  }
-}
-
-class _FileCard<T extends AbstractFile> extends StatelessWidget {
-  final ISenderController<T> controller;
-  final T file;
-  final int index;
-  _FileCard({this.controller, this.file, this.index});
-
-  @override
-  Widget build(BuildContext context) {
-    return Card(
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Text(
-            file.getFileName(),
-            style: TextStyle(
-              fontSize: 20
-            ),
-          ),
-          Text(
-            file.getFileSize().toString(),
-            style: TextStyle(
-              fontSize: 10,
-              color: Colors.grey
-            ),
-          ),
-          IconButton(
-            onPressed: () => controller.onDeleteFile(index),
-            icon: Icon(Icons.delete),
-          )
-        ],
       ),
     );
   }
@@ -211,6 +199,7 @@ class ViewTestController extends ISenderController<SenderTestFile> {
   List<SenderTestFile> _addedFiles = [
     SenderTestFile(fileName: "file1", fileSize: 1024),
     SenderTestFile(fileName: "file2", fileSize: 2048),
+    SenderTestFile(fileName: "file3", fileSize: 2048),
   ];
   Map<String, String> _receivers = {};
 
@@ -248,7 +237,11 @@ class ViewTestController extends ISenderController<SenderTestFile> {
   }
 
   @override
-  onDeleteFile(int index) => _addedFiles.removeAt(index);
+  onDeleteFile(int index)  {
+    _addedFiles.removeAt(index);
+    _addedFiles.forEach((element) {
+    });
+  }
 
   @override
   List<SenderTestFile> getFiles() {

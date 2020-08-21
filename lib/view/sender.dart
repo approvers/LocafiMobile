@@ -1,8 +1,11 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_app/controller/sender.dart';
+import 'package:flutter_app/model/sender.dart';
 import 'package:flutter_app/types/file.dart';
 
-class SenderPage<T extends OriginalFile> extends StatefulWidget {
+class SenderPage<T extends AbstractFile> extends StatefulWidget {
   final ISenderController<T> controller;
 
   const SenderPage({Key key, this.controller}) : super(key: key);
@@ -11,7 +14,7 @@ class SenderPage<T extends OriginalFile> extends StatefulWidget {
   _SenderPageState createState() => _SenderPageState();
 }
 
-class _SenderPageState<T extends OriginalFile> extends State<SenderPage> {
+class _SenderPageState<T extends AbstractFile> extends State<SenderPage> {
   final ISenderController<T> controller;
 
   _SenderPageState({this.controller});
@@ -130,7 +133,7 @@ class _SendButton extends StatelessWidget {
   }
 }
 
-class _SendFileList<T extends OriginalFile> extends StatefulWidget {
+class _SendFileList<T extends AbstractFile> extends StatefulWidget {
   final List<T> fileList;
   final ISenderController<T> controller;
   _SendFileList({this.fileList, this.controller});
@@ -139,7 +142,7 @@ class _SendFileList<T extends OriginalFile> extends StatefulWidget {
   _SendFileListState createState() => _SendFileListState();
 }
 
-class _SendFileListState<T extends OriginalFile> extends State<_SendFileList> {
+class _SendFileListState<T extends AbstractFile> extends State<_SendFileList> {
   final List<T> fileList;
   final ISenderController<T> controller;
   _SendFileListState({this.fileList, this.controller});
@@ -161,7 +164,7 @@ class _SendFileListState<T extends OriginalFile> extends State<_SendFileList> {
   }
 }
 
-class _FileCard<T extends OriginalFile> extends StatelessWidget {
+class _FileCard<T extends AbstractFile> extends StatelessWidget {
   final ISenderController<T> controller;
   final T file;
   final int index;
@@ -193,5 +196,80 @@ class _FileCard<T extends OriginalFile> extends StatelessWidget {
         ],
       ),
     );
+  }
+}
+
+class ViewTestController extends ISenderController<SenderTestFile> {
+  ISenderModel<SenderTestFile> _model;
+
+  List<SenderTestFile> _addedFiles = [];
+  Map<String, String> _receivers = {};
+
+  String selectedReceiversURL;
+  static const _okCode = HttpStatus.ok;
+
+  ViewTestController(ISenderModel model) {
+    this._model = model;
+  }
+
+  @override
+  onAddNewFile(SenderTestFile file) {
+    _addedFiles.add(file);
+  }
+
+  @override
+  Future<bool> onClickSendButton() async {
+    if (selectedReceiversURL == null)
+      return false;
+
+    return _okCode == await _model.sendFiles(_addedFiles, selectedReceiversURL);
+  }
+
+  @override
+  onSelectReceiver(String receiver) {
+    if (!_receivers.containsKey(receiver))
+      throw NullThrownError();
+    selectedReceiversURL = _receivers[receiver];
+  }
+
+  @override
+  Future<List<String>> getReceiverNames() async {
+    _receivers = await _model.getServers();
+    return _receivers.keys.toList();
+  }
+
+  @override
+  onDeleteFile(int index) => _addedFiles.removeAt(index);
+
+  @override
+  List<SenderTestFile> getFiles() {
+    return _addedFiles;
+  }
+}
+
+class SenderTestFile extends AbstractFile {
+  String fileName;
+  int fileSize;
+
+  SenderTestFile({this.fileName, this.fileSize});
+
+  String getFileName() => fileName;
+  int getFileSize() => fileSize;
+}
+
+class SenderViewTestModel<T extends AbstractFile> implements ISenderModel<T> {
+  Future<Map<String, String>> getServers() async {
+    return {
+      "Server": "address",
+      "Unchi": "ip"
+    };
+  }
+
+  Future<int> sendFiles(List<T> file, String url) async {
+    if (file.isEmpty) {
+      return 204;
+    }
+
+    return 200;
   }
 }

@@ -11,14 +11,10 @@ class SenderPage<T extends AbstractFile> extends StatefulWidget {
   SenderPage({this.controller});
 
   @override
-  _SenderPageState createState() => _SenderPageState<T>(controller: controller);
+  _SenderPageState createState() => _SenderPageState<T>();
 }
 
 class _SenderPageState<T extends AbstractFile> extends State<SenderPage> {
-  final ISenderController<T> controller;
-
-  _SenderPageState({this.controller});
-
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
@@ -29,13 +25,13 @@ class _SenderPageState<T extends AbstractFile> extends State<SenderPage> {
         child: Column(
           children: [
             _ReceiverSelector(
-              controller: controller,
+              controller: widget.controller,
             ),
             _SendButton(
-              controller: controller,
+              controller: widget.controller,
             ),
             _SendFileList<T>(
-              controller: controller,
+              controller: widget.controller,
             )
           ],
         ),
@@ -50,20 +46,17 @@ class _ReceiverSelector extends StatefulWidget {
   _ReceiverSelector({this.controller});
 
   @override
-  _ReceiverSelectorState createState() => _ReceiverSelectorState(controller: controller);
+  _ReceiverSelectorState createState() => _ReceiverSelectorState();
 }
 
 class _ReceiverSelectorState extends State<_ReceiverSelector> {
-  ISenderController controller;
   static const initialValue = "(Please choose one)";
   String selectedValue = initialValue;
-
-  _ReceiverSelectorState({this.controller});
 
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
-      future: controller.getReceiverNames(),
+      future: widget.controller.getReceiverNames(),
       builder: (BuildContext context, AsyncSnapshot<List<String>> snapshot) {
         if (snapshot.hasData) {
           var cache = snapshot.data;
@@ -109,7 +102,7 @@ class _SendButton extends StatelessWidget {
           final statusText = isSuccess ? "Succeeded sending files!!!" : "Failed sending files...";
           showDialog(
               context: context,
-              builder: (_) => sentDialog(context, statusText)
+              builder: (_) => _sentDialog(context, statusText)
           );
         });
       },
@@ -117,7 +110,7 @@ class _SendButton extends StatelessWidget {
     );
   }
 
-  Widget sentDialog(BuildContext context, String statusText) {
+  Widget _sentDialog(BuildContext context, String statusText) {
     return AlertDialog(
       title: Text("Sent files"),
       content: Text(statusText),
@@ -136,21 +129,18 @@ class _SendFileList<T extends AbstractFile> extends StatefulWidget {
   _SendFileList({this.controller});
 
   @override
-  _SendFileListState createState() => _SendFileListState<T>(
-    controller: controller,
-  );
+  _SendFileListState createState() => _SendFileListState<T>();
 }
 
 class _SendFileListState<T extends AbstractFile> extends State<_SendFileList> {
-  final ISenderController<T> controller;
   List<T> _fileList;
-  _SendFileListState({this.controller}) {
-     _fileList = controller.getFiles();
+  _SendFileListState() {
+     _fileList = widget.controller.getFiles();
   }
 
   @override
   Widget build(BuildContext context) {
-    _fileList = controller.getFiles();
+    _fileList = widget.controller.getFiles();
     return Expanded(
       child: ListView.builder(
         itemCount: _fileList.length,
@@ -176,7 +166,7 @@ class _SendFileListState<T extends AbstractFile> extends State<_SendFileList> {
                 IconButton(
                   onPressed: () =>
                       setState(() {
-                        controller.onDeleteFile(index);
+                        widget.controller.onDeleteFile(index);
                       }),
                   icon: Icon(Icons.delete),
                 )
@@ -254,18 +244,12 @@ class SenderTestFile extends AbstractFile {
 }
 
 class SenderViewTestModel<T extends AbstractFile> implements ISenderModel<T> {
-  Future<Map<String, String>> getServers() async {
-    return {
-      "Server": "address",
-      "Unchi": "ip"
-    };
-  }
+  Future<Map<String, String>> getServers() async => {
+    "Server": "address",
+    "Unchi": "ip"
+  };
 
   Future<int> sendFiles(List<T> file, String url) async {
-    if (file.isEmpty) {
-      return 204;
-    }
-
-    return 200;
+    return file.isEmpty ? 200 : 204;
   }
 }

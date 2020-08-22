@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_app/controller/home.dart';
-import 'package:flutter_app/view/home.dart';
-import 'package:flutter_app/view/sender.dart';
+import 'package:locafi_mobile/controller/home.dart';
+import 'package:locafi_mobile/view/home.dart';
+import 'package:locafi_mobile/view/sender.dart';
 
 void main() {
   runApp(MyApp());

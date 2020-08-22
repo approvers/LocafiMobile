@@ -1,4 +1,4 @@
-import 'package:flutter_app/controller/home.dart';
+import 'package:locafi_mobile/controller/home.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 main() {

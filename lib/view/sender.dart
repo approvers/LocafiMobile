@@ -228,9 +228,7 @@ class ViewTestController extends ISenderController<SenderTestFile> {
   }
 
   @override
-  List<SenderTestFile> getFiles() {
-    return _addedFiles;
-  }
+  List<SenderTestFile> getFiles() => _addedFiles;
 }
 
 class SenderTestFile extends AbstractFile {

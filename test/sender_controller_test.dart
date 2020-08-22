@@ -1,7 +1,7 @@
 import 'dart:io';
 
-import 'package:locafiMobile/controller/sender.dart';
-import 'package:locafiMobile/model/sender.dart';
+import 'package:locafi_mobile/controller/sender.dart';
+import 'package:locafi_mobile/model/sender.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 main() async {

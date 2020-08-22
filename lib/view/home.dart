@@ -2,7 +2,7 @@
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
-import 'package:locafiMobile/controller/home.dart';
+import 'package:locafi_mobile/controller/home.dart';
 
 class HomePage extends StatelessWidget {
   final IHomeController controller;

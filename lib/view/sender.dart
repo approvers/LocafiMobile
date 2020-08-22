@@ -1,9 +1,9 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:locafiMobile/controller/sender.dart';
-import 'package:locafiMobile/model/sender.dart';
-import 'package:locafiMobile/types/file.dart';
+import 'package:locafi_mobile/controller/sender.dart';
+import 'package:locafi_mobile/model/sender.dart';
+import 'package:locafi_mobile/types/file.dart';
 
 class SenderPage<T extends AbstractFile> extends StatefulWidget {
   final ISenderController<T> controller;

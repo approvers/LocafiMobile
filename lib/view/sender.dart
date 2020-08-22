@@ -247,7 +247,6 @@ class SenderViewTestModel<T extends AbstractFile> implements ISenderModel<T> {
     "Unchi": "ip"
   };
 
-  Future<int> sendFiles(List<T> file, String url) async {
-    return file.isEmpty ? 200 : 204;
-  }
+  Future<int> sendFiles(List<T> file, String url) async =>
+      file.isEmpty ? 200 : 204;
 }

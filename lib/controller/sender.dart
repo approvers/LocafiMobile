@@ -1,6 +1,6 @@
 import 'dart:io';
 
-import 'package:flutter_app/model/sender.dart';
+import 'package:locafiMobile/model/sender.dart';
 
 class SenderController<T> implements ISenderController<T> {
   ISenderModel<T> _model;

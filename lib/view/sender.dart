@@ -1,9 +1,9 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_app/controller/sender.dart';
-import 'package:flutter_app/model/sender.dart';
-import 'package:flutter_app/types/file.dart';
+import 'package:locafiMobile/controller/sender.dart';
+import 'package:locafiMobile/model/sender.dart';
+import 'package:locafiMobile/types/file.dart';
 
 class SenderPage<T extends AbstractFile> extends StatefulWidget {
   final ISenderController<T> controller;
@@ -133,10 +133,7 @@ class _SendFileList<T extends AbstractFile> extends StatefulWidget {
 }
 
 class _SendFileListState<T extends AbstractFile> extends State<_SendFileList> {
-  List<T> _fileList;
-  _SendFileListState() {
-     _fileList = widget.controller.getFiles();
-  }
+  List<T> _fileList = [];
 
   @override
   Widget build(BuildContext context) {

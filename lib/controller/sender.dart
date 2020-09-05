@@ -1,8 +1,9 @@
 import 'dart:io';
 
 import 'package:locafi_mobile/model/sender.dart';
+import 'package:locafi_mobile/types/file.dart';
 
-class SenderController<T> implements ISenderController<T> {
+class SenderController<T extends AbstractFile> implements ISenderController<T> {
   ISenderModel<T> _model;
 
   List<T> _addedFiles = [];

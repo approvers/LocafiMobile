@@ -60,14 +60,10 @@ class _TestingFile extends AbstractFile {
   _TestingFile({this.fileName, this.fileSize});
 
   @override
-  String getFileName() {
-    return this.fileName;
-  }
+  String getFileName() => this.fileName;
 
   @override
-  int getFileSize() {
-    return this.fileSize;
-  }
+  int getFileSize() => this.fileSize;
 }
 
 class TestingModel implements ISenderModel<_TestingFile> {

@@ -11,7 +11,7 @@ main() async {
     TestingFile(fileName: "file3", fileSize: 300),
   ];
 
-  IReceiverServerModel serverModel = TestReceiverServerModel(receivedFileList: files);
+  TestReceiverServerModel serverModel = TestReceiverServerModel(receivedFileList: files);
   TestReceiverFileSaverModel saverModel = TestReceiverFileSaverModel();
   IReceiverController controller = ReceiverController(serverModel, saverModel);
 
@@ -22,6 +22,7 @@ main() async {
         expect(await controller.startServer("invalid"), false);
         expect(await controller.finishServer(), true);
         expect(await controller.finishServer(), false);
+        serverModel.resetTestStatus();
       }
   );
   
@@ -32,6 +33,9 @@ main() async {
         expect(await controller.waitFiles(), files);
         expect(controller.getFileList(), files);
         await controller.finishServer();
+        serverModel.resetTestStatus();
+        saverModel.resetAllStatus();
+        deleteAllFiles(controller);
       }
   );
 
@@ -44,6 +48,9 @@ main() async {
         expect(controller.getFileList(), files.where((file) => file.getFileName() != "file1").toList());
         expect(controller.deleteFile(100), false);
         await controller.finishServer();
+        serverModel.resetTestStatus();
+        saverModel.resetAllStatus();
+        deleteAllFiles(controller);
       }
   );
 
@@ -57,8 +64,15 @@ main() async {
         expect(await controller.saveFile(100), false);
 
         await controller.finishServer();
+        serverModel.resetTestStatus();
+        saverModel.resetAllStatus();
+        deleteAllFiles(controller);
       }
   );
+}
+
+void deleteAllFiles(ReceiverController controller) {
+  while (controller.deleteFile(0)) {}
 }
 
 class TestReceiverServerModel implements IReceiverServerModel<TestingFile> {
@@ -92,10 +106,13 @@ class TestReceiverServerModel implements IReceiverServerModel<TestingFile> {
     return false;
   }
 
+  void resetTestStatus() {
+    this.serverAvailable = false;
+  }
 }
 
 class TestReceiverFileSaverModel implements IReceiverFileSaverModel<TestingFile> {
-  final List<TestingFile> savedFiles = [];
+  List<TestingFile> savedFiles = [];
 
   @override
   Future<bool> saveFile(TestingFile file) async {
@@ -104,5 +121,8 @@ class TestReceiverFileSaverModel implements IReceiverFileSaverModel<TestingFile>
 
   return true;
   }
-  
+
+  void resetAllStatus() {
+    savedFiles = [];
+  }
 }

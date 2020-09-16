@@ -70,3 +70,22 @@ class _PageState extends State<ReceiverPage> {
     });
   }
 }
+
+class ReceiverFrame extends StatefulWidget {
+  final IReceiverController controller;
+  ReceiverFrame({@required this.controller});
+
+  @override
+  State<StatefulWidget> createState() => _ReceiverFrameState();
+}
+
+class _ReceiverFrameState extends State<ReceiverFrame> {
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        
+      ],
+    );
+  }
+}

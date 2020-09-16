@@ -12,9 +12,10 @@ class ReceiverPage extends StatefulWidget {
 
 class _PageState extends State<ReceiverPage> {
   final List<int> selectedFiles = [];
+  bool serverStarted = false;
+
   @override
   Widget build(BuildContext context) {
-    final serverName = ModalRoute.of(context).settings.arguments.toString();
     return Scaffold(
       appBar: AppBar(
         title: Text("ファイル受け取り"),
@@ -30,7 +31,7 @@ class _PageState extends State<ReceiverPage> {
         ],
       ),
       body: FutureBuilder(
-        future: widget.controller.startServer(serverName),
+        future: startServer(context),
         builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
           if (snapshot.hasData) {
             // TODO: Create Receiver Contents
@@ -45,12 +46,23 @@ class _PageState extends State<ReceiverPage> {
     );
   }
 
+  Future<bool> startServer(BuildContext context) async {
+    if (!serverStarted) {
+      final serverName = ModalRoute.of(context).settings.arguments.toString();
+      return await widget.controller.startServer(serverName);
+    }
+    serverStarted = true;
+
+    return true;
+  }
+
   void saveSelectedFiles() {
     selectedFiles.sort();
     selectedFiles.reversed.forEach((index) {
       widget.controller.saveFile(index);
     });
   }
+
   void deleteSelectedFiles() {
     selectedFiles.sort();
     selectedFiles.reversed.forEach((index) {

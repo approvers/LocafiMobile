@@ -62,29 +62,21 @@ class _PageState extends State<ReceiverPage> {
 
   void saveSelectedFiles() {
     selectedFiles.sort();
-    selectedFiles.reversed.forEach((index) {
-      widget.controller.saveFile(index);
-    });
+    selectedFiles.reversed.forEach((index) =>
+      widget.controller.saveFile(index));
   }
 
   void deleteSelectedFiles() {
     selectedFiles.sort();
-    selectedFiles.reversed.forEach((index) {
-      widget.controller.deleteFile(index);
-    });
+    selectedFiles.reversed.forEach((index) =>
+      widget.controller.deleteFile(index));
   }
 
-  void updateDeselectFile(int index) {
-    setState(() {
-      selectedFiles.remove(index);
-    });
-  }
+  void updateDeselectFile(int index) =>
+    setState(() => selectedFiles.remove(index));
 
-  void updateSelectFile(int index) {
-    setState(() {
-      selectedFiles.add(index);
-    });
-  }
+  void updateSelectFile(int index) =>
+    setState(() => selectedFiles.add(index));
 }
 
 class ReceiverFrame extends StatefulWidget {
@@ -107,13 +99,10 @@ class ReceiverFrame extends StatefulWidget {
 class _ReceiverFrameState extends State<ReceiverFrame> {
   List<AbstractFile> receivedFiles = [];
 
-  void checkBoxHandler(bool state, int index) {
-    if (state) {
-      widget.selectFile(index);
-      return;
-    }
-    widget.deselectFile(index);
-  }
+  void checkBoxHandler(bool state, int index) =>
+    state 
+      ? widget.selectFile(index)
+      : widget.deselectFile(index);
 
   Widget receivedFileCard(AbstractFile file, int index) => Card(
     child: Row(
@@ -130,13 +119,9 @@ class _ReceiverFrameState extends State<ReceiverFrame> {
 
   @override
   Widget build(BuildContext context) {
-    widget.controller.waitFiles().then((files) {
-      setState(() {
-        files.forEach((file) {
-          receivedFiles.add(file);
-        });
-      });
-    });
+    widget.controller.waitFiles().then((files) =>
+      setState(() => files.forEach((file) => receivedFiles.add(file))),
+    );
 
     return ListView.builder(
         itemCount: receivedFiles.length,

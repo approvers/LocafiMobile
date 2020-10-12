@@ -35,8 +35,12 @@ class _PageState extends State<ReceiverPage> {
         future: startServer(context),
         builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
           if (snapshot.hasData) {
-            // TODO: Create Receiver Contents
-            return Container();
+            return ReceiverFrame(
+              controller: widget.controller,
+              selectFile: updateSelectFile,
+              deselectFile: updateDeselectFile,
+              selectedStates: selectedFiles,
+            );
           }
           if (snapshot.hasError) {
             return Text(snapshot.error);
@@ -70,11 +74,31 @@ class _PageState extends State<ReceiverPage> {
       widget.controller.deleteFile(index);
     });
   }
+
+  void updateDeselectFile(int index) {
+    setState(() {
+      selectedFiles.remove(index);
+    });
+  }
+
+  void updateSelectFile(int index) {
+    setState(() {
+      selectedFiles.add(index);
+    });
+  }
 }
 
 class ReceiverFrame extends StatefulWidget {
   final IReceiverController<AbstractFile> controller;
-  ReceiverFrame({@required this.controller});
+  final void Function(int) selectFile;
+  final void Function(int) deselectFile;
+  final List<int> selectedStates;
+  ReceiverFrame({
+    @required this.controller,
+    @required this.selectFile,
+    @required this.deselectFile,
+    @required this.selectedStates,
+  });
 
   @override
   State<StatefulWidget> createState() => _ReceiverFrameState();
@@ -100,6 +124,16 @@ class _ReceiverFrameState extends State<ReceiverFrame> {
               return Card(
                 child: Row(
                   children: [
+                    Checkbox(
+                      onChanged: (bool value) {
+                        if (value) {
+                          widget.selectFile(index);
+                          return;
+                        }
+                        widget.deselectFile(index);
+                      },
+                      value: widget.selectedStates.indexOf(index) != -1,
+                    ),
                     Text(file.getFileName()),
                     Text("size: ${file.getFileSize()}"),
                   ],

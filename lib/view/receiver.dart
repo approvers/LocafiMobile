@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:locafi_mobile/controller/receiver.dart';
+import 'package:locafi_mobile/types/file.dart';
 
 class ReceiverPage extends StatefulWidget {
   final IReceiverController controller;
@@ -72,7 +73,7 @@ class _PageState extends State<ReceiverPage> {
 }
 
 class ReceiverFrame extends StatefulWidget {
-  final IReceiverController controller;
+  final IReceiverController<AbstractFile> controller;
   ReceiverFrame({@required this.controller});
 
   @override
@@ -80,12 +81,39 @@ class ReceiverFrame extends StatefulWidget {
 }
 
 class _ReceiverFrameState extends State<ReceiverFrame> {
+  List<AbstractFile> receivedFiles = [];
   @override
   Widget build(BuildContext context) {
+    widget.controller.waitFiles().then((files) {
+      files.forEach((file) {
+        receivedFiles.add(file);
+      });
+      setState(() {});
+    });
+
     return Column(
       children: [
-        
+        ListView.builder(
+            itemCount: receivedFiles.length,
+            itemBuilder: (BuildContext context, int index) {
+              final file = receivedFiles[index];
+              return Card(
+                child: Row(
+                  children: [
+                    Text(file.getFileName()),
+                    Text("size: ${file.getFileSize()}"),
+                  ],
+                ),
+              );
+            }
+        ),
       ],
     );
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    receivedFiles = widget.controller.getFileList();
   }
 }

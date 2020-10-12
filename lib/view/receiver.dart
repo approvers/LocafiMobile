@@ -131,10 +131,11 @@ class _ReceiverFrameState extends State<ReceiverFrame> {
   @override
   Widget build(BuildContext context) {
     widget.controller.waitFiles().then((files) {
-      files.forEach((file) {
-        receivedFiles.add(file);
+      setState(() {
+        files.forEach((file) {
+          receivedFiles.add(file);
+        });
       });
-      setState(() {});
     });
 
     return Column(

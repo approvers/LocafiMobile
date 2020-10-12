@@ -138,13 +138,10 @@ class _ReceiverFrameState extends State<ReceiverFrame> {
       });
     });
 
-    return Column(
-      children: [
-        ListView.builder(
-            itemCount: receivedFiles.length,
-            itemBuilder: (BuildContext context, int index) =>
-                receivedFileCard(receivedFiles[index], index)),
-      ],
+    return ListView.builder(
+        itemCount: receivedFiles.length,
+        itemBuilder: (BuildContext context, int index) =>
+            receivedFileCard(receivedFiles[index], index)
     );
   }
 

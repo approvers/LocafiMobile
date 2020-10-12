@@ -5,6 +5,7 @@ import 'package:locafi_mobile/types/file.dart';
 
 class ReceiverPage extends StatefulWidget {
   final IReceiverController controller;
+
   ReceiverPage({@required this.controller});
 
   @override
@@ -16,40 +17,38 @@ class _PageState extends State<ReceiverPage> {
   bool serverStarted = false;
 
   @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text("ファイル受け取り"),
-        actions: [
-          IconButton(
-            icon: Icon(Icons.save),
-            onPressed: saveSelectedFiles,
-          ),
-          IconButton(
-            icon: Icon(Icons.delete),
-            onPressed: deleteSelectedFiles,
-          ),
-        ],
-      ),
-      body: FutureBuilder(
-        future: startServer(context),
-        builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
-          if (snapshot.hasData) {
-            return ReceiverFrame(
-              controller: widget.controller,
-              selectFile: updateSelectFile,
-              deselectFile: updateDeselectFile,
-              selectedStates: selectedFiles,
-            );
-          }
-          if (snapshot.hasError) {
-            return Text(snapshot.error);
-          }
-          return CircularProgressIndicator();
-        },
-      ),
-    );
-  }
+  Widget build(BuildContext context) => Scaffold(
+    appBar: AppBar(
+      title: Text("ファイル受け取り"),
+      actions: [
+        IconButton(
+          icon: Icon(Icons.save),
+          onPressed: saveSelectedFiles,
+        ),
+        IconButton(
+          icon: Icon(Icons.delete),
+          onPressed: deleteSelectedFiles,
+        ),
+      ],
+    ),
+    body: FutureBuilder(
+      future: startServer(context),
+      builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
+        if (snapshot.hasData) {
+          return ReceiverFrame(
+            controller: widget.controller,
+            selectFile: updateSelectFile,
+            deselectFile: updateDeselectFile,
+            selectedStates: selectedFiles,
+          );
+        }
+        if (snapshot.hasError) {
+          return Text(snapshot.error);
+        }
+        return CircularProgressIndicator();
+      },
+    ),
+  );
 
   Future<bool> startServer(BuildContext context) async {
     if (!serverStarted) {
@@ -93,6 +92,7 @@ class ReceiverFrame extends StatefulWidget {
   final void Function(int) selectFile;
   final void Function(int) deselectFile;
   final List<int> selectedStates;
+
   ReceiverFrame({
     @required this.controller,
     @required this.selectFile,
@@ -106,6 +106,28 @@ class ReceiverFrame extends StatefulWidget {
 
 class _ReceiverFrameState extends State<ReceiverFrame> {
   List<AbstractFile> receivedFiles = [];
+
+  void checkBoxHandler(bool state, int index) {
+    if (state) {
+      widget.selectFile(index);
+      return;
+    }
+    widget.deselectFile(index);
+  }
+
+  Widget receivedFileCard(AbstractFile file, int index) => Card(
+    child: Row(
+      children: [
+        Checkbox(
+          onChanged: (bool value) => checkBoxHandler(value, index),
+          value: widget.selectedStates.indexOf(index) != -1,
+        ),
+        Text(file.getFileName()),
+        Text("size: ${file.getFileSize()}"),
+      ],
+    ),
+  );
+
   @override
   Widget build(BuildContext context) {
     widget.controller.waitFiles().then((files) {
@@ -119,28 +141,8 @@ class _ReceiverFrameState extends State<ReceiverFrame> {
       children: [
         ListView.builder(
             itemCount: receivedFiles.length,
-            itemBuilder: (BuildContext context, int index) {
-              final file = receivedFiles[index];
-              return Card(
-                child: Row(
-                  children: [
-                    Checkbox(
-                      onChanged: (bool value) {
-                        if (value) {
-                          widget.selectFile(index);
-                          return;
-                        }
-                        widget.deselectFile(index);
-                      },
-                      value: widget.selectedStates.indexOf(index) != -1,
-                    ),
-                    Text(file.getFileName()),
-                    Text("size: ${file.getFileSize()}"),
-                  ],
-                ),
-              );
-            }
-        ),
+            itemBuilder: (BuildContext context, int index) =>
+                receivedFileCard(receivedFiles[index], index)),
       ],
     );
   }
